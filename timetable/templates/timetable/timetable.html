@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Class Timetable Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f1f5fb;
+            color: #263449;
+            min-height: 100vh;
+            padding: 35px 20px;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #123b75, #2674bd);
+            color: white;
+            padding: 35px 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(20, 65, 120, 0.15);
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 15px;
+            color: #e1edff;
+        }
+
+        .table-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .table-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .table-heading h2 {
+            color: #183c70;
+            font-size: 22px;
+        }
+
+        .status {
+            background: #e5f7ed;
+            color: #16834b;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th {
+            background: #1c4e87;
+            color: white;
+            padding: 17px 14px;
+            text-align: left;
+            font-size: 14px;
+            letter-spacing: 0.3px;
+        }
+
+        td {
+            padding: 16px 14px;
+            border-bottom: 1px solid #e5eaf1;
+            font-size: 14px;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f5f8fc;
+        }
+
+        tbody tr:hover {
+            background: #e8f2ff;
+            transition: 0.2s;
+        }
+
+        .day {
+            font-weight: 600;
+            color: #1d4e89;
+        }
+
+        .time {
+            color: #344e70;
+            font-weight: 500;
+        }
+
+        .subject {
+            font-weight: 600;
+            color: #263f63;
+        }
+
+        .classroom {
+            background: #eaf1ff;
+            color: #245da0;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 35px;
+            color: #7b8798;
+            font-size: 16px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #8290a2;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 18px 10px;
+            }
+
+            .header h1 {
+                font-size: 25px;
+            }
+
+            .table-card {
+                padding: 15px;
+            }
+
+            .table-heading h2 {
+                font-size: 19px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Class Timetable</h1>
+
+<form method="GET">
+    <input
+        type="text"
+        name="search"
+        placeholder="Search subject..."
+        value="{{ search_query }}"
+    >
+
+    <select name="day">
+        <option value="">All Days</option>
+
+        {% for d in days %}
+        <option value="{{ d }}" {% if selected_day == d %}selected{% endif %}>
+            {{ d }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Search</button>
+    <a href="/">Reset</a>
+</form>
+
+        <p>Academic Schedule Management System</p>
+    </div>
+
+    <div class="table-card">
+
+        <div class="table-heading">
+            <h2>Weekly Class Schedule</h2>
+            <span class="status">● Timetable</span>
+        </div>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Time Slot</th>
+                        <th>Subject</th>
+                        <th>Faculty Name</th>
+                        <th>Classroom</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for slot in slots %}
+
+                    <tr>
+                        <td class="day">
+                            {{ slot.day }}
+                        </td>
+
+                        <td class="time">
+                            {{ slot.start_time|time:"g a" }} -
+                            {{ slot.end_time|time:"g a" }}
+                        </td>
+
+                        <td class="subject">
+                            {{ slot.subject }}
+                        </td>
+
+                        <td>
+                            -
+                        </td>
+
+                        <td>
+                            <span class="classroom">
+                                {{ slot.classroom }}
+                            </span>
+                        </td>
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="5" class="empty-message">
+                            No timetable records available.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        Class Timetable Management System
+    </div>
+
+</div>
+
+</body>
+</html>
