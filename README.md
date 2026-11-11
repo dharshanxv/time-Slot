@@ -19,10 +19,15 @@ Register the timetable app in the INSTALLED_APPS section of the project settings
 Create a model named TimeSlot with the following fields:
 
 Day
+
 Start Time
+
 End Time
+
 Subject Name
+
 Faculty Name
+
 Perform the necessary database migrations.
 
 Register the TimeSlot model in the Django Admin panel.
@@ -40,9 +45,13 @@ Create an HTML template named timetable.html.
 Design an HTML table with the following columns:
 
 Day
+
 Time Slot
+
 Subject
+
 Faculty Name
+
 Use Django template tags (for loop and variable expressions) to display the timetable records dynamically in the HTML table.
 
 Add a suitable heading such as Class Timetable.
@@ -50,9 +59,11 @@ Add a suitable heading such as Class Timetable.
 Run the Django development server and display the timetable in the browser.
 
 Expected Output
+
 A webpage displaying the class timetable in a properly formatted HTML table with day-wise time slots, subject names and faculty details.
 
 Additional Tasks
+
 Add a new field named Classroom to the TimeSlot model.
 Update the HTML table to display the classroom details.
 Display a message if no timetable records are available.
